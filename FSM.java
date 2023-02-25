@@ -4,11 +4,12 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
+import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-@TeleOp(name="wow teleop")
-public class FSMClass extends OpMode {
+@TeleOp(name="sad teleop")
+public class FSM extends OpMode {
     //Setting Lift States
     public enum LiftState{
         GRIPING,
@@ -19,10 +20,10 @@ public class FSMClass extends OpMode {
 
     LiftState liftState = LiftState.GRIPING;
 
-    double gripClose = 0.38;
-    double gripOpen = 0.13;
+    double gripClose = 0.13;
+    double gripOpen = 0.38;
     int slideUp = 1600;
-    int slideDown = 200;
+    int slideDown = 0;
 
     double gripTime;
     double releaseTime;
@@ -30,13 +31,17 @@ public class FSMClass extends OpMode {
     ElapsedTime gripingTimer = new ElapsedTime();
     ElapsedTime releaseTimer = new ElapsedTime();
 
-    double slideVelocity;
+    double slideVelocity = 300;
 
     //Declaring Servos and Motors
-    Servo gripper = hardwareMap.servo.get("claw");
-    DcMotorEx slide = hardwareMap.get(DcMotorEx.class, "slidemotor");
+    Servo gripper;
+    DcMotorEx slide;
 
     public void init() {
+        gripper = hardwareMap.servo.get("claw");
+        slide = hardwareMap.get(DcMotorEx.class, "slidemotor");
+        slide.setDirection(DcMotor.Direction.REVERSE);
+        gripper.setPosition(gripOpen);
         gripingTimer.reset();
     }
 
