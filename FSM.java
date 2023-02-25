@@ -1,5 +1,4 @@
 package org.firstinspires.ftc.teamcode;
-
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.CRServo;
@@ -9,7 +8,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 @TeleOp(name="wow teleop")
-public class FSM extends OpMode {
+public class FSMClass extends OpMode {
     //Setting Lift States
     public enum LiftState{
         GRIPING,
@@ -23,7 +22,7 @@ public class FSM extends OpMode {
     double gripClose = 0.38;
     double gripOpen = 0.13;
     int slideUp = 1600;
-    int slideDown 200;
+    int slideDown = 200;
 
     double gripTime;
     double releaseTime;
@@ -34,9 +33,8 @@ public class FSM extends OpMode {
     double slideVelocity;
 
     //Declaring Servos and Motors
-    Servo gripper;
-
-    DcMotorEx slide;
+    Servo gripper = hardwareMap.servo.get("claw");
+    DcMotorEx slide = hardwareMap.get(DcMotorEx.class, "slidemotor");
 
     public void init() {
         gripingTimer.reset();
@@ -82,3 +80,4 @@ public class FSM extends OpMode {
         telemetry.update();
     }
 }
+
