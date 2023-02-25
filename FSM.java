@@ -38,8 +38,6 @@ public class FSMClass extends OpMode {
 
     public void init() {
         gripingTimer.reset();
-        gripper = hardwareMap.servo.get("gripper");
-        slide = hardwareMap.get(DcMotorEx.class,"slide");
     }
 
     public void loop() {
