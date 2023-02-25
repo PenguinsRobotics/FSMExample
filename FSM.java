@@ -20,10 +20,10 @@ public class FSM extends OpMode {
 
     LiftState liftState = LiftState.GRIPING;
 
-    double gripClose;
-    double gripOpen;
-    int slideUp;
-    int slideDown;
+    double gripClose = 0.38;
+    double gripOpen = 0.13;
+    int slideUp = 1600;
+    int slideDown 200;
 
     double gripTime;
     double releaseTime;
