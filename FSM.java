@@ -1,3 +1,5 @@
+// This code is an example of FSM in an actual program.
+
 package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
@@ -8,9 +10,9 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-@TeleOp(name="sad teleop")
+@TeleOp(name="FSM Example")
 public class FSM extends OpMode {
-    //Setting Lift States
+    //Setting steps of the FSM (or states)
     public enum LiftState{
         GRIPING,
         LIFTING,
@@ -18,15 +20,8 @@ public class FSM extends OpMode {
         LOWER
     }
 
+    //Setting the first step
     LiftState liftState = LiftState.GRIPING;
-
-    double gripClose = 0.13;
-    double gripOpen = 0.38;
-    int slideUp = 1600;
-    int slideDown = 0;
-
-    double gripTime;
-    double releaseTime;
 
     ElapsedTime gripingTimer = new ElapsedTime();
     ElapsedTime releaseTimer = new ElapsedTime();
@@ -38,49 +33,28 @@ public class FSM extends OpMode {
     DcMotorEx slide;
 
     public void init() {
-        gripper = hardwareMap.servo.get("claw");
-        slide = hardwareMap.get(DcMotorEx.class, "slidemotor");
-        slide.setDirection(DcMotor.Direction.REVERSE);
-        gripper.setPosition(gripOpen);
-        gripingTimer.reset();
+        //Initalize your motors, servos, or sensors here
     }
 
     public void loop() {
+        //The actual part of the code that loops during teleop
         switch (liftState) {
             case GRIPING:
-                // Waiting for some input
-                if (gamepad2.x) {
-                    gripper.setPosition(gripClose);
-                    gripingTimer.reset();
-                    liftState = LiftState.LIFTING;
-                }
+                //First step (or state) of the FSM
                 break;
             case LIFTING:
-                if (gripingTimer.seconds() >= gripTime) {
-                    slide.setTargetPosition(slideUp);
-                    slide.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                    slide.setVelocity(slideVelocity);
-                    liftState = LiftState.RELEASE;
-                }
+                //Second step (or state) of the FSM
                 break;
             case RELEASE:
-                if (gamepad2.b){
-                    //release cone
-                    //reset release timer
-                    //set state to lower
-                }
+                //Third step (or state) of the FSM
                 break;
             case LOWER:
-                //check if release time has been reached
-                //lower slides
-                //set state to lifting
+                //Third step (or state) of the FSM
                 break;
             default:
+                //This state is reached if the FSM cycle gets out of order
                 liftState = LiftState.GRIPING;
         }
-        telemetry.addData("GripperPos", gripper.getPosition());
-        telemetry.addData("SlidePos", slide.getCurrentPosition());
-        telemetry.update();
     }
 }
 
